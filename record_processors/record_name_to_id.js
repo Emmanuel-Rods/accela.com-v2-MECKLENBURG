@@ -27,6 +27,7 @@ async function getRecordId(recordNumber) {
     "utf-8",
   ); //!important
   const BasePayload = buildBasicPayload(html); // builds the skeleton
+  BasePayload["ctl00$PlaceHolderMain$txtEndDate"] = ""; // set enddate to zero
   const payload = recordIDPayloadBuilder(BasePayload, recordNumber);
 
   // require("fs").writeFileSync(
@@ -44,4 +45,4 @@ async function getRecordId(recordNumber) {
 
 module.exports = getRecordId;
 
-// console.log(getRecordId("RES-NEW-25-000032"));
+console.log(getRecordId("RES-CHG-26-007865"));
