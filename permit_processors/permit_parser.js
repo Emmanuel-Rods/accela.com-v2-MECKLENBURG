@@ -120,7 +120,7 @@ function parsePermits(htmlString, recordId) {
   );
   result.owner = parseBrBlock(
     $,
-    $('span[id*="label_owner"]').closest("td").find(".table_child td").last(),
+    $('span[id*="label_owner"]').closest("td").find(".table_child td"),
   );
 
   // 4. More Details -> Related Contacts
