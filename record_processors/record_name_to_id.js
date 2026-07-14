@@ -44,5 +44,3 @@ async function getRecordId(recordNumber) {
 // const id = getRecordId("RES-NEW-26-003081").then((id) => console.log(id));
 
 module.exports = getRecordId;
-
-console.log(getRecordId("RES-CHG-26-007865"));
