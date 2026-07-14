@@ -61,4 +61,29 @@ async function cleanJSONinFolder(inputFolder, outputFolder) {
   }
 }
 
-module.exports = cleanJSONinFolder;
+function cleanJSON(rawData) {
+  let data = rawData;
+
+  // --- TARGET 1: Drop empty applicationInformation ---
+  delete data["applicationInformation"];
+
+  // --- TARGET 2: Drop TOWNHOUSE ADDRESSES ---
+  if (data.applicationInformationTables) {
+    delete data.applicationInformationTables["TOWNHOUSE ADDRESSES"];
+  }
+
+  // --- TARGET 3: Drop legal sentence ---
+  const contractors =
+    data.applicationInformationTables?.["CONTRACTOR INFORMATION"];
+  if (Array.isArray(contractors)) {
+    const legalSentence =
+      "By Selecting Yes, You are certifying that this information is correct";
+    contractors.forEach((contractor) => {
+      delete contractor[legalSentence];
+    });
+  }
+
+  return data;
+}
+
+module.exports = { cleanJSONinFolder, cleanJSON };
