@@ -1,3 +1,5 @@
 node_modules/
 permits/
 .env
+DIFF_FOLDER
+daily.csv
