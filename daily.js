@@ -10,6 +10,12 @@ const fs = require("fs").promises;
 
 const dateOffset = 1;
 
+const requiredSecondaryData = [
+  "Residential New Construction Permit",
+  "Residential Addition Permit",
+  "Commercial New Construction Permit",
+];
+
 async function main() {
   const csv = await downloadCSV(dateOffset);
 
@@ -21,9 +27,25 @@ async function main() {
   const input_data = await fs.readFile(INPUT_FILE, "utf-8");
   const dailyData = parseCSVToJSON(input_data);
 
-  // add filters here
+  // filtering by applications
+  const filteredApplications = dailyData.filter((app) =>
+    requiredSecondaryData.includes(app["Record Type"]),
+  );
 
-  await fs.writeFile("daily_permits.json", JSON.stringify(dailyData, null, 2));
+  // if there are no applications after filtering
+  if (filteredApplications.length === 0) {
+    console.log("No Applications left for processing after filtering");
+    return;
+  }
+
+  console.log(
+    `fetched ${dailyData.length} total permits, ${filteredApplications.length} passed all filters`,
+  );
+
+  await fs.writeFile(
+    "daily_permits.json",
+    JSON.stringify(filteredApplications, null, 2),
+  );
   // need to get the ids
   await processRecords("daily_permits.json", "daily_permits_record_id.json");
   // // once ids
